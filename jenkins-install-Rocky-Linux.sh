@@ -17,6 +17,7 @@ sudo dnf install -y java-17-openjdk jenkins || sudo dnf --nogpgcheck install -y 
 sudo systemctl enable --now jenkins
 sudo systemctl status jenkins
 
+java -version
 # Step 5: Open firewall port if firewalld is enabled (uncomment if needed)
 # sudo firewall-cmd --permanent --add-port=8080/tcp
 # sudo firewall-cmd --reload
@@ -27,4 +28,3 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 
 
 # Connect to jenkins You public IP Port :8080   http://public_IP:8080 
-

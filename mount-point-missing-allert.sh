@@ -1,47 +1,55 @@
 #!/bin/bash
+###############################################################################
+# Script Name : compare_mount_points.sh
+# Description : Compares two filesystem reports and identifies missing mount
+#               points in the second report. Outputs full details for each.
+# Author      : Krishna Tummeti
+# Website     : https://techbasehub.com
+# Date        : 20-Jul-2025
+# Usage       : Run this script manually or via cron
+###############################################################################
 
+# Exit on any error
+set -e
 
-> /home/labex/project/1results.txt
+# FILE1 = Old known-good mount point list (taken previously)
+# FILE2 = Current system mount point output
+df -Th > /home/labex/project/mount_point_new.txt
 
-cat /home/labex/project/1-test.txt | awk 'NR>1 {print $7}' > fs1.txt
+# Input files
+FILE1="/home/labex/project/disk_old_20-06-2025.txt"
+FILE2="/home/labex/project/mount_point_new.txt"
 
-cat /home/labex/project/2-test.txt | awk 'NR>1 {print $7}' > fs2.txt
+# Output files
+BASE_DIR="/home/labex/project"
+TMP1="$BASE_DIR/file_system_old.txt"
+TMP2="$BASE_DIR/file_system_new.txt"
+RESULTS="$BASE_DIR/results.txt"
+FULL_RESULTS="$BASE_DIR/missing_mount_details.txt"
 
-comm -23 <(sort /home/labex/project/fs1.txt) <(sort /home/labex/project/fs2.txt) > /home/labex/project/results.txt
+# Clear previous outputs
+> "$RESULTS"
+> "$FULL_RESULTS"
 
+# Extract mount points (column 7), skip headers
+awk 'NR > 1 {print $7}' "$FILE1" > "$TMP1"
+awk 'NR > 1 {print $7}' "$FILE2" > "$TMP2"
 
-# Get unique mount points from 1-test.txt that aren't in 2-test.txt
-unique_mounts=$(comm -23 <(awk 'NR>1 {print $7}' 1-test.txt | sort) <(awk 'NR>1 {print $7}' 2-test.txt | sort))
+# Compare and find mount points only in FILE1 (missing in FILE2)
+comm -23 <(sort "$TMP1") <(sort "$TMP2") > "$RESULTS"
 
-# For each unique mount point, find and print its full line from 1-test.txt
-for mount in $unique_mounts; do
-    grep -F "$mount" 1-test.txt > /home/labex/project/1results.txt
-done
-
-
-
-#!/bin/bash
-
-# Clear results file
-> /home/labex/project/1results.txt
-
-# Extract mount points (skip headers)
-awk 'NR>1 {print $7}' /home/labex/project/1-test.txt > /home/labex/project/fs1.txt
-awk 'NR>1 {print $7}' /home/labex/project/2-test.txt > /home/labex/project/fs2.txt
-
-# Find unique mount points in 1-test.txt (not in 2-test.txt)
-comm -23 <(sort /home/labex/project/fs1.txt) <(sort /home/labex/project/fs2.txt) > /home/labex/project/results.txt
-
-# Check if results are empty
-if [ ! -s /home/labex/project/results.txt ]; then
-    echo "All mount points are available"
+# Check if anything is missing
+if [ ! -s "$RESULTS" ]; then
+    echo "All mount points from '$FILE1' are present in '$FILE2'."
 else
-    # Process results with for loop
-    for mount_point in $(cat /home/labex/project/results.txt); do
-        grep -F "$mount_point" /home/labex/project/1-test.txt >> /home/labex/project/1results.txt
+    echo "Missing mount points detected! Details below:"
+    
+    # Use FOR loop to process and extract full lines
+    for mount_point in $(cat "$RESULTS"); do
+        grep -F "$mount_point" "$FILE1" >> "$FULL_RESULTS"
     done
-    echo "Missing mount points detected please take action accordingly. Details below:"
-    # Show results
-    cat /home/labex/project/1results.txt
-fi
 
+    cat "$FULL_RESULTS"
+    echo
+    echo "Full details saved in: $FULL_RESULTS"
+fi
