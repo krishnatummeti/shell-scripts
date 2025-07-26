@@ -1,7 +1,10 @@
-101 Monitor - Dell 24" - Available
-102 Laptop - Lenovo ThinkPad - Available
-103 Mouse - Logitech Wireless - Available
-104 Keyboard - Mechanical - Available
-105 Software - Adobe Photoshop - Available
-106 Mobile - iPhone 13 - Available
-107 Headset - Sony WH-1000XM5 - Available
+201 Monitor - Apple Studio Display 27" - Available
+202 Laptop - MacBook Pro M3 Max 16" - Not Available
+203 Mouse - Logitech MX Master 3S Wireless - Available
+204 Keyboard - Keychron K8 Wireless Mechanical - Available
+205 Software - Adobe Creative Cloud Suite - Not Available
+206 Mobile - iPhone 15 Pro Max - Available
+207 Headset - Bose QuietComfort Ultra - Available
+208 Tablet - iPad Pro 12.9" with Pencil - Not Available
+209 Docking Station - CalDigit TS4 Thunderbolt 4 - Available
+210 Webcam - Elgato Facecam Pro 4K - Available
