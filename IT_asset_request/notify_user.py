@@ -14,8 +14,8 @@ recipient = sys.argv[2]
 asset = sys.argv[3]
 request_id = sys.argv[4]
 
-EMAIL_ADDRESS = "your-email@gmail.com"
-EMAIL_PASSWORD = "your-app-password"  # Use App Password
+EMAIL_ADDRESS = "krishnatummeti@gmail.com"
+EMAIL_PASSWORD = "sqslafjksyewiyeq"  # Use App Password
 
 msg = EmailMessage()
 msg['Subject'] = f"Asset Request Confirmation [ID: {request_id}]"
