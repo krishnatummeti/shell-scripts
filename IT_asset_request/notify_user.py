@@ -15,8 +15,8 @@ assets = sys.argv[3].replace("\\n", "\n")  # Proper newline handling
 request_id = sys.argv[4]
 
 # Replace with your Gmail account and app password
-EMAIL_ADDRESS = "your-email@gmail.com"
-EMAIL_PASSWORD = "your-app-password"  # Use Gmail App Password
+EMAIL_ADDRESS = "krishnatummeti@gmail.com"
+EMAIL_PASSWORD = "sqslafjksyewiyeq"  # Use Gmail App Password
 
 msg = EmailMessage()
 msg['Subject'] = f"Asset Request Confirmation [ID: {request_id}]"
