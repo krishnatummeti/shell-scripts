@@ -33,7 +33,7 @@ for code in "${asset_codes[@]}"; do
         invalid_codes+=("$code")
     else
         asset_name=$(echo "$asset_line" | cut -d "-" -f2- | xargs)
-        requested_assets+="$asset_name\n"
+        requested_assets+="${asset_name}"$'\n'
         echo "$timestamp | Request ID: $request_id | $emp_id | $emp_name | $asset_name" >> "$LOG"
     fi
 done
@@ -53,5 +53,5 @@ echo "----------------------------------------"
 echo -n "Enter your Email for confirmation: "
 read email
 
-# Send email using Python
+# Send email using Python (pass multi-line string safely)
 python3 "$EMAIL_SCRIPT" "$emp_name" "$email" "$requested_assets" "$request_id"
