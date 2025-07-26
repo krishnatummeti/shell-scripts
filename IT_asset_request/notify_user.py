@@ -11,9 +11,10 @@ if len(sys.argv) != 5:
 
 name = sys.argv[1]
 recipient = sys.argv[2]
-assets = sys.argv[3].replace("\\n", "\n")  # Ensure newlines are preserved
+assets = sys.argv[3].replace("\\n", "\n")  # Proper newline handling
 request_id = sys.argv[4]
 
+# Replace with your Gmail account and app password
 EMAIL_ADDRESS = "your-email@gmail.com"
 EMAIL_PASSWORD = "your-app-password"  # Use Gmail App Password
 

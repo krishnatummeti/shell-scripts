@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # File: asset_request.sh
-# Description: IT Asset Request System - Multiple Item Support
+# Description: IT Asset Request System (Multi-item support)
 
 INVENTORY="inventory.txt"
 LOG="requests_db.txt"
@@ -16,16 +16,16 @@ read emp_name
 
 echo ""
 echo "📦 Available Assets:"
-cat $INVENTORY
+cat "$INVENTORY"
 echo ""
 
 echo -n "Enter the Asset Code(s) you want to request (separated by space): "
-read -a asset_codes  # Array input
+read -a asset_codes  # Read into an array
 
 requested_assets=""
 invalid_codes=()
 timestamp=$(date "+%Y-%m-%d %H:%M:%S")
-request_id=$(date +%s)  # Unique ID based on epoch time
+request_id=$(date +%s)
 
 for code in "${asset_codes[@]}"; do
     asset_line=$(grep "^$code " "$INVENTORY")
@@ -53,5 +53,5 @@ echo "----------------------------------------"
 echo -n "Enter your Email for confirmation: "
 read email
 
-# Send to Python for email
+# Send email using Python
 python3 "$EMAIL_SCRIPT" "$emp_name" "$email" "$requested_assets" "$request_id"
