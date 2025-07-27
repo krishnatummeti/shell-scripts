@@ -44,8 +44,12 @@ if [[ -z "$emp_name" || -z "$emp_id" || -z "$email" ]]; then
     exit 1
 fi
 
-# Ask for optional comment
-comment=$(zenity --entry --title="Justification / Comment" --text="Add any reason or comments (optional):")
+# Multiline comment box
+comment=$(zenity --text-info \
+  --editable \
+  --title="Justification / Comment" \
+  --width=500 --height=300 \
+  --filename=/dev/null)
 comment=${comment:-"N/A"}
 
 # Ask for priority using a combo box
@@ -92,4 +96,7 @@ echo "$timestamp | Request ID: $request_id | $emp_id | $emp_name | Priority: $pr
 python3 "$EMAIL_SCRIPT" "$emp_name" "$emp_id" "$email" "$requested_assets" "$request_id" "$priority" "$comment"
 
 if [ $? -eq 0 ]; then
-    zenity --info --title="✅ Request Submi
+    zenity --info --title="✅ Request Submitted" --text="Your IT asset request has been submitted and emailed." --width=350
+else
+    zenity --error --title="❌ Email Failed" --text="There was a problem sending the confirmation email." --width=350
+fi
