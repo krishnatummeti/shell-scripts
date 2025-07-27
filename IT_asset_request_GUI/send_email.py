@@ -16,9 +16,9 @@ priority = sys.argv[6]
 comment = sys.argv[7]
 
 # Email config (customize)
-sender_email = "your-email@gmail.com"
-sender_password = "your-app-password"
-it_email = "it-team@example.com"  # IT department email
+sender_email = "krishnatummeti@gmail.com"
+sender_password = "sqslafjksyewiyeq"
+it_email = "krishnatummeti@gmail.com"  # IT department email
 
 # Email to employee
 subject_user = f"IT Asset Request Confirmation (ID: {request_id})"
