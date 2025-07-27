@@ -100,3 +100,5 @@ if [ $? -eq 0 ]; then
 else
     zenity --error --title="❌ Email Failed" --text="There was a problem sending the confirmation email." --width=350
 fi
+
+
