@@ -34,3 +34,5 @@ Simple GUI-based script to request IT assets.
 - Email settings must be updated in `send_email.py`
 - Works only with available items
 - Log file is saved as `requests_log.txt`
+
+
