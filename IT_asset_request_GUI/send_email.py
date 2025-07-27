@@ -3,8 +3,8 @@ import sys
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-if len(sys.argv) < 6:
-    print("Usage: send_email.py <name> <emp_id> <email> <assets> <request_id>")
+if len(sys.argv) < 7:
+    print("Usage: send_email.py <name> <emp_id> <email> <assets> <request_id> <priority>")
     sys.exit(1)
 
 name = sys.argv[1]
@@ -12,11 +12,14 @@ emp_id = sys.argv[2]
 recipient_email = sys.argv[3]
 requested_assets = sys.argv[4].replace("\\n", "\n")
 request_id = sys.argv[5]
+priority = sys.argv[6]
 
-# Email credentials (replace with your Gmail + app password)
-sender_email = "krishnatummeti@gmail.com"
-sender_password = "sqslafjksyewiyeq"
+# Email setup
+sender_email = "krishnatummeti@gmail.com"  # <-- replace with your email
+sender_password = "sqslafjksyewiyeq"  # <-- replace with 16-digit app password
+it_email = "krishnatummeti@gmail.com"       # <-- replace with your IT email address
 
+# Email content for employee
 subject = f"IT Asset Request Confirmation (ID: {request_id})"
 body = f"""
 Hello {name},
@@ -25,8 +28,9 @@ Your IT asset request has been received successfully.
 
 🔹 Request ID: {request_id}
 🔹 Employee ID: {emp_id}
+🔹 Priority: {priority}
 
-📦 Requested Items:
+📦 Requested Assets:
 {requested_assets}
 
 You will be contacted shortly by the IT department.
@@ -35,18 +39,17 @@ Best regards,
 IT Support Team
 """
 
-message = MIMEMultipart()
-message["From"] = sender_email
-message["To"] = recipient_email
-message["Subject"] = subject
-message.attach(MIMEText(body, "plain"))
+# Email content for IT
+it_subject = f"[NEW REQUEST] {name} ({emp_id}) - Priority: {priority}"
+it_body = f"""
+New IT Asset Request Received:
 
-try:
-    with smtplib.SMTP("smtp.gmail.com", 587) as server:
-        server.starttls()
-        server.login(sender_email, sender_password)
-        server.send_message(message)
-    print("✅ Email sent successfully.")
-except Exception as e:
-    print(f"❌ Failed to send email: {e}")
-    sys.exit(1)
+🔹 Request ID: {request_id}
+🔹 Employee Name: {name}
+🔹 Employee ID: {emp_id}
+🔹 Priority: {priority}
+
+📦 Requested Assets:
+{requested_assets}
+
+This is an automa
