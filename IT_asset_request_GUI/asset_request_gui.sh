@@ -44,13 +44,15 @@ if [[ -z "$emp_name" || -z "$emp_id" || -z "$email" ]]; then
     exit 1
 fi
 
-# Ask for priority
-priority=$(zenity --list \
+# Ask for optional comment
+comment=$(zenity --entry --title="Justification / Comment" --text="Add any reason or comments (optional):")
+comment=${comment:-"N/A"}
+
+# Ask for priority using a combo box
+priority=$(zenity --forms \
     --title="Select Priority Level" \
-    --text="How critical is this request?" \
-    --radiolist \
-    --column="Select" --column="Priority" \
-    TRUE "High" FALSE "Medium" FALSE "Low")
+    --add-combo="Priority" \
+    --combo-values="High|Medium|Low")
 
 if [ -z "$priority" ]; then
     zenity --error --text="❌ You must select a priority level!" --width=300
@@ -84,13 +86,10 @@ fi
 request_id=$(date +%s)
 timestamp=$(date "+%Y-%m-%d %H:%M:%S")
 
-echo "$timestamp | Request ID: $request_id | $emp_id | $emp_name | Priority: $priority | $requested_assets" >> "$LOG"
+echo "$timestamp | Request ID: $request_id | $emp_id | $emp_name | Priority: $priority | Comment: $comment | $requested_assets" >> "$LOG"
 
 # Send email
-python3 "$EMAIL_SCRIPT" "$emp_name" "$emp_id" "$email" "$requested_assets" "$request_id" "$priority"
+python3 "$EMAIL_SCRIPT" "$emp_name" "$emp_id" "$email" "$requested_assets" "$request_id" "$priority" "$comment"
 
 if [ $? -eq 0 ]; then
-    zenity --info --title="✅ Request Submitted" --text="Your IT asset request has been submitted and emailed." --width=350
-else
-    zenity --error --title="❌ Email Failed" --text="There was a problem sending the confirmation email." --width=350
-fi
+    zenity --info --title="✅ Request Submi
