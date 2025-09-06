@@ -25,6 +25,4 @@ java -version
 # Step 6: Print initial admin password
 echo "Initial Jenkins admin password:"
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
-
-
 # Connect to jenkins You public IP Port :8080   http://public_IP:8080 
